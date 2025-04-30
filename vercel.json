@@ -1,0 +1,1 @@
+{"version": 2, "builds": [{"src": "api/birthstones.js", "use": "@vercel/node"}], "routes": [{"src": "/api/birthstones", "dest": "api/birthstones.js"}]}
