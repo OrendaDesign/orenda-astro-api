@@ -1,11 +1,23 @@
 export default function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  // 🔒 CORS Headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // 🛑 Preflight (OPTIONS) isteği ise hemen sonlandır
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
   }
 
+  // ❌ Sadece POST izinli
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // 🔍 Doğum tarihi kontrolü
   const { birthDate } = req.body;
   if (!birthDate) {
-    return res.status(400).json({ error: 'Doğum tarihi eksik' });
+    return res.status(400).json({ error: "Doğum tarihi eksik" });
   }
 
   const date = new Date(birthDate);
